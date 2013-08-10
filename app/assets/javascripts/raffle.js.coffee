@@ -8,3 +8,7 @@
     {name: "Dagny Taggart"}
     {name: "Hank Rearden"}
   ]
+  
+  $scope.addEntry = ->
+    $scope.entries.push($scope.newEntry)
+    $scope.newEntry = {}
