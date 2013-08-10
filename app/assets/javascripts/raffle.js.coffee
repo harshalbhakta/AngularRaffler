@@ -16,3 +16,4 @@
   $scope.drawWinner = ->
     entry = $scope.entries[Math.floor(Math.random() * $scope.entries.length)]
     entry.winner = true
+    $scope.lastWinner = entry
