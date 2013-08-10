@@ -1,16 +1,15 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+app = angular.module("Raffler", ["ngResource"])
 
-@RaffleCtrl = ($scope) ->
-  $scope.entries = [
-    {name: "John Galt"}
-    {name: "Dagny Taggart"}
-    {name: "Hank Rearden"}
-  ]
+@RaffleCtrl = ($scope,$resource) ->
+  Entry = $resource("/entries/:id", {id: "@id"}, {update: {method: "PUT"}})
+  $scope.entries = Entry.query()
   
   $scope.addEntry = ->
-    $scope.entries.push($scope.newEntry)
+    entry = Entry.save($scope.newEntry)
+    $scope.entries.push(entry)
     $scope.newEntry = {}
   
   $scope.drawWinner = ->
@@ -20,4 +19,5 @@
     if pool.length > 0
       entry = pool[Math.floor(Math.random() * pool.length)]
       entry.winner = true
+      entry.$update()
       $scope.lastWinner = entry
